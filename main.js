@@ -60,8 +60,9 @@
 			{
 				var curr = $( this );
 
-				var wait = parseInt( curr.attr('wait') );
-				var text = curr.text();
+				var wait	= parseInt( curr.attr('wait') );
+				var speed	= parseInt( curr.attr('speed') );
+				var text	= curr.text();
 
 				seq.push( function()
 				{
@@ -71,7 +72,33 @@
 						function()
 						{
 							console.log( text );
-							dfd.resolve();
+
+							var sub_seq = [];
+
+							var text_len = text.length;
+
+							var x = 0;
+
+							for( x = 0; x < text_len; x++ )
+							{
+								sub_seq.push( ( function( args )
+								{
+									var sub_dfd = $.Deferred();
+
+									setTimeout(
+										function( param )
+										{
+											console.log( param.txt[param.pos] );
+											sub_dfd.resolve();
+										}, args.delay, args
+									);
+
+									return sub_dfd.promise();
+								} ).bind( null, { txt : text, pos: x, delay : speed } ) );
+							}
+
+							$.sequence( sub_seq ).then( function(){ console.log('SUB DONE!'); dfd.resolve(); });
+
 						}, wait
 					);
 
