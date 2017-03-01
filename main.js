@@ -32,9 +32,13 @@
 
 							if( !inline )	dom_line = $('<p/>').addClass('dom_line');
 							else			dom_line = $('#player_area .dom_line').last();*/
-							var dom_line = inline ? $('#player_area .dom_line').last() : $('<p/>').addClass('dom_line');
+							var dom_line = inline ? $('#player_area .dom_line').last() : $('<span/>').addClass('dom_line');
 
-							$('#player_area').append( dom_line );
+							var indicator = $('#console_indicator').clone();
+
+							$('#console_indicator').remove();
+
+							$('#player_area').append( dom_line, indicator, inline ? $('<br/>') : null );
 
 							if( delay )
 							{
