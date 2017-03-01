@@ -68,10 +68,15 @@
 					}
 					else //clear command
 					{
-						console.log('CLEARED');
-						var indicator = $('#console_indicator').clone();
-						$('#player_area').empty().append( indicator );
-						dfd.resolve();
+						setTimeout(
+							function( param )
+							{
+								console.log('CLEARED');
+								var indicator = $('#console_indicator').clone();
+								$('#player_area').empty().append( indicator );
+								dfd.resolve();
+							}, wait
+						);
 					}
 
 				
