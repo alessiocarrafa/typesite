@@ -47,6 +47,7 @@
 												function( param )
 												{
 													dom_line[0].innerHTML += param.txt[param.pos];
+													document.body.scrollTop = document.body.scrollHeight;
 													sub_dfd.resolve();
 												}, args.delay, args
 											);

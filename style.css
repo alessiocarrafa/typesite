@@ -17,6 +17,7 @@ html, body
 	background-color: #000;
 	color: #0F0;
 	font-family: 'Arial';
+	overflow-y: hidden;
 }
 span
 {
