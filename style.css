@@ -1,0 +1,22 @@
+html, body
+{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	background-color: #000;
+	color: #0F0;
+	font-family: 'Arial';
+}
+#player_data
+{
+	margin: 0 auto;
+	border: 1px solid #0F0;
+}
+#player_area
+{
+	margin: 0 auto;
+	border: 1px solid #F00;
+}
