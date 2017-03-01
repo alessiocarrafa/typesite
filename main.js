@@ -12,66 +12,69 @@
 
 				var wait	= parseInt( curr.attr('wait') );
 				var delay	= parseInt( curr.attr('delay') );
-				var inline	= curr.attr('inline') == 'true'; 
+				var inline	= curr.attr('inline') == 'true';
+				var clear	= curr.attr('clear') == 'true';
 				var text	= curr.text();
 
 				seq.push( function()
 				{
 					var dfd = $.Deferred();
 
-					setTimeout(
-						function()
-						{
-							console.log( text );
-
-							var sub_seq = [];
-
-							var text_len = text.length;
-
-							/*var dom_line;
-
-							if( !inline )	dom_line = $('<p/>').addClass('dom_line');
-							else			dom_line = $('#player_area .dom_line').last();*/
-							var dom_line = inline ? $('#player_area .dom_line').last() : $('<span/>').addClass('dom_line');
-
-							var indicator = $('#console_indicator').clone();
-
-							$('#console_indicator').remove();
-
-							$('#player_area').append( dom_line, indicator, inline ? $('<br/>') : null );
-
-							if( delay )
+					if( !clear )
+					{
+						setTimeout(
+							function()
 							{
-								for( var x = 0; x < text_len; x++ )
+								var sub_seq = [];
+
+								var dom_line = inline ? $('#player_area .dom_line').last() : $('<span/>').addClass('dom_line');
+
+								var indicator = $('#console_indicator').clone();
+
+								$('#console_indicator').remove();
+
+								$('#player_area').append( dom_line, indicator, inline ? $('<br/>') : null );
+
+								if( delay )
 								{
-									sub_seq.push( ( function( args )
+									for( var x = 0; x < text.length; x++ )
 									{
-										var sub_dfd = $.Deferred();
+										sub_seq.push( ( function( args )
+										{
+											var sub_dfd = $.Deferred();
 
-										setTimeout(
-											function( param )
-											{
-												console.log( param.txt[param.pos] );
-												dom_line[0].innerHTML += param.txt[param.pos];
-												sub_dfd.resolve();
-											}, args.delay, args
-										);
+											setTimeout(
+												function( param )
+												{
+													dom_line[0].innerHTML += param.txt[param.pos];
+													sub_dfd.resolve();
+												}, args.delay, args
+											);
 
-										return sub_dfd.promise();
-									} ).bind( null, { txt : text, pos: x, delay : delay } ) );
+											return sub_dfd.promise();
+										} ).bind( null, { txt : text, pos: x, delay : delay } ) );
+									}
 								}
-							}
-							else
-							{
-								dom_line[0].innerHTML = text;
-							}
+								else
+								{
+									dom_line[0].innerHTML = text;
+								}
+								
 
-							
+								$.sequence( sub_seq ).then( function(){ console.log('SUB DONE!'); dfd.resolve(); });
 
-							$.sequence( sub_seq ).then( function(){ console.log('SUB DONE!'); dfd.resolve(); });
+							}, wait
+						);
+					}
+					else //clear command
+					{
+						console.log('CLEARED');
+						var indicator = $('#console_indicator').clone();
+						$('#player_area').empty().append( indicator );
+						dfd.resolve();
+					}
 
-						}, wait
-					);
+				
 
 					return dfd.promise();
 				} );

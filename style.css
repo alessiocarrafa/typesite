@@ -22,19 +22,20 @@ span
 {
     padding: 0;
     margin: 0;
-	border: 1px solid red;
 	display: inline;
 }
 #player_data, #player_area
 {
 	padding: 1em;
 	margin: 0 auto;
-	border: 1px solid #0F0;
+}
+#player_data
+{
+	display: none;
 }
 #player_area
 {
 	margin: 0 auto;
-	border: 1px solid #F00;
 }
 .blink
 {
@@ -50,8 +51,7 @@ span
 {
 	height: 1em;
 	width: 0.5em;
-	background-color: rgb(0, 255, 0);
+	background-color: #0F0;
 	display: inline-block;
-	margin-left: 10px;
 	margin-bottom: -.2em;
 }
